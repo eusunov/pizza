@@ -1,4 +1,6 @@
+import * as bcrypt from 'bcrypt';
 import { Injectable, NotFoundException, NotAcceptableException } from '@nestjs/common';
+import { SALT_OR_ROUNDS } from './constants';
 import { User } from './entities/user.entity';
 import { UserRole } from './user-role.enum';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -64,6 +66,7 @@ export class UsersService {
     const { randomUUID } = await import('node:crypto');
     const uuid = randomUUID()
     const date = new Date()
+    user.password = await bcrypt.hash(user.password, SALT_OR_ROUNDS);
     this.users.set(
       uuid,
       Object.assign({}, user, { id: uuid, created: date, updated: date })
