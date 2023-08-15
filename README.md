@@ -63,8 +63,47 @@ Start the application:
 # start
 $ npm run start
 ```
+### Check the pizzeria offering (the products)
 
-### Register/create new customers:
+We look at the offering with the following:
+
+```bash
+# GET products
+curl -X GET -H 'Content-Type: application/json' http://localhost:3000/products
+```
+
+The result is:
+
+```json
+[
+  {
+    "id":"7733f582-2a64-4040-9e04-bd3f6e28af3",
+    "name":"Margarita",
+     "category":"Pizza",
+     "ingredients":"cheese, tomapto, oregano",
+     "weightGramm":330,
+     "priseBGN":12.99,
+     "created":"2023-08-15T14:47:14.859Z",
+     "updated":"2023-08-15T14:47:14.859Z",
+     "active":true
+   },
+   {
+     "id":"ca8ac377-be4f-4ceb-9496-7e7e0c982481",
+      "name":"Staropramen",
+      "category":"beer",
+      "ingredients":"hops, water",
+      "volumeLiter":0.33,
+      "priseBGN":3.5,
+      "created":"2023-08-15T14:47:14.859Z",
+      "updated":"2023-08-15T14:47:14.859Z",
+      "active":true
+   }
+]
+```
+
+### Register/create new customer
+
+To order first, we need to register.
 
 The *register.json* is the payload required for the registration:
 
@@ -79,8 +118,26 @@ The *register.json* is the payload required for the registration:
 ```
 The registration request:
 ```bash
+# POST auth/register
 curl -X POST -H 'Content-Type: application/json' http://localhost:3000/auth/register -d @register.json
 ```
+### Sign-in users:
+
+The *login.json* is the payload required for the login:
+```json
+{
+  "email": "dragan@draganov.com",
+  "password": "11223344",
+}
+```
+The login request:
+
+```bash
+# POST auth/login
+curl -X POST -H 'Content-Type: application/json' http://localhost:3000/auth/login -d @register.json
+{"access_token":"eyJhbGciOiJIUzI1..."}
+```
+We get back the access token to use for the subsequent request.
 
 ## Test
 
