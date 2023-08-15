@@ -1,5 +1,3 @@
-import * as bcrypt from 'bcrypt';
-
 import {
   Controller,
   Get,
@@ -15,7 +13,6 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserDto } from './dto/user.dto';
 import { UsersService } from './users.service';
-import { SALT_OR_ROUNDS } from './constants';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { Public } from '../auth/decorators/public.decorator';
 import { UserRole } from './user-role.enum';
@@ -27,7 +24,6 @@ export class UsersController {
   @Post()
   @Roles(UserRole.Admin)
   async create(@Body() createUserDto: CreateUserDto): Promise<undefined> {
-    createUserDto.password = await bcrypt.hash(createUserDto.password, SALT_OR_ROUNDS);
     await this.usersService.create(createUserDto);
   }
 
