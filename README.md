@@ -121,7 +121,7 @@ The registration request:
 # POST auth/register
 curl -X POST -H 'Content-Type: application/json' http://localhost:3000/auth/register -d @register.json
 ```
-### Sign-in users:
+### Sign-in users
 
 The *login.json* is the payload required for the login:
 ```json
@@ -138,6 +138,37 @@ curl -X POST -H 'Content-Type: application/json' http://localhost:3000/auth/logi
 {"access_token":"eyJhbGciOiJIUzI1..."}
 ```
 We get back the access token to use for the subsequent request.
+
+###  Order pizza and beer
+
+The *order.json* is the payload with our product choice (two pizzas and two beers):
+```json
+{
+  "purchase": [
+    {
+      "productId": "7733f582-2a64-4040-9e04-fbd3f6e28af3",
+      "quantity": 2,
+      "priceBGN": 12.99
+    },
+    {
+      "productId": "ca8ac377-be4f-4ceb-9496-7e7e0c982481",
+      "quantity": 2,
+      "priceBGN": 3.5
+    }
+  ],
+  "totalBGN": 32.98,
+  "deliveryAddress": {
+    "street": "Vitoshka 777",
+    "city": "Sofia"
+  }
+}
+```
+
+The order request:
+
+```bash
+
+```
 
 ## Test
 
