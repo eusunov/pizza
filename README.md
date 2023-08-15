@@ -24,7 +24,7 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+API for pizza ordering (NetsJS with TS) - prototype
 
 ## Installation
 
