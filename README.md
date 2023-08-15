@@ -24,7 +24,16 @@
 
 ## Description
 
-API for pizza ordering (NetsJS with TS) - prototype
+This REST interface is a working prototype of API for pizza ordering (written using NetsJS with TS).
+
+The interface uses the JWT Bearer token in the authorization header for authentication.
+
+The APIs use user roles (i.e., customer, maker, admin) to implement the authorization strategy.
+
+It mocks the persistency layer in the in-memory data structure.
+
+The implementation is for presentation/testing purposes.
+
 
 ## Installation
 
@@ -43,6 +52,34 @@ $ npm run start:dev
 
 # production mode
 $ npm run start:prod
+```
+## Usage
+
+To demonstrate the usage, we show the following examples of CURL requests:
+
+Start the application:
+
+```bash
+# start
+$ npm run start
+```
+
+### Register/create new customers:
+
+The *register.json* is the payload required for the registration:
+
+```json
+{
+  "email": "dragan@draganov.com",
+  "name": "Customer",
+  "phone": "+359888777777",
+  "password": "11223344",
+  "active": true
+}
+```
+The registration request:
+```bash
+curl -X POST -H 'Content-Type: application/json' http://localhost:3000/auth/register -d @register.json
 ```
 
 ## Test
