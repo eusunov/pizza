@@ -167,10 +167,76 @@ The *order.json* is the payload with our product choice (two pizzas and two beer
 The order request:
 
 ```bash
-
+# POST orders
+curl -X POST -H 'Content-Type: application/json' http://localhost:3000/orders -d @order.json -H "Authorization: Bearer eyJhbGciOiJIUzI1..."
 ```
 
+###  Process the order
+
+Now the pizza maker should do the job but must first sign in. We have in our system pre-registered makers, suppliers, and admin. The admin user can create/delete/update all kinds of users using GET/POST/PATCH/DELETE users endponts.
+All new registered users have a customer role assigned.
+
+Our pre-defined pizza maker user has the following access data in *maker.json*:
+
+```json
+{
+  "email": "emil@hearit.io",
+  "password": "11223344"
+}
+```
+The pizza maker login request looks like this:
+
+```bash
+# POST auth/login
+curl -X POST -H 'Content-Type: application/json' http://localhost:3000/auth/login -d @maker.json
+{"access_token":"eyJhbGciOiJIUzI..."}
+```
+The pizza maker checks for ordered pizzas:
+
+```bash
+# GET orders
+curl -X GET -H 'Content-Type: application/json' http://localhost:3000/orders -H "Authorization: Bearer eyJhbGciOiJIUz..."
+[
+  {
+    "purchase": [
+      {
+        "productId": "7733f582-2a64-4040-9e04-fbd3f6e28af3",
+        "quantity": 2,
+        "priceBGN": 12.99
+      },
+      {
+        "productId": "ca8ac377-be4f-4ceb-9496-7e7e0c982481",
+        "quantity": 2,
+        "priceBGN": 3.5
+      }
+    ],
+    "totalBGN": 32.98,
+    "deliveryAddress": {
+      "street": "Vitoshka 777",
+      "city": "Sofia"
+    },
+    "userId": "6d5e3071-1524-4574-88af-207c5d62886a",
+    "status": "ordered",
+    "id": "aecb5187-16ec-44ec-accc-a5b2eb94a70d",
+    "created": "2023-08-15T16:23:34.146Z",
+    "updated": "2023-08-15T16:23:34.146Z"
+  }
+]
+```
+After the order is done the pizza maker sets it to ready with the following call:
+
+```bash
+curl -X PATCH -H 'Content-Type: application/json' http://localhost:3000/orders/aecb5187-16ec-44ec-accc-a5b2eb94a70d -d '{"status": "ready"}' -H "Authorization: Bearer eyJhbGciOiJIU..."
+```
+In the same way, each order goes through its life cycle by setting other statuses (delivered, paid, etc.).
+
+Only the admin users can delete an order.
+
+
+
 ## Test
+
+This is a work in progress.
 
 ```bash
 # unit tests
