@@ -6,6 +6,7 @@ import {
   Post,
   Patch,
   Delete,
+  Request,
   Body,
   Param,
   ParseUUIDPipe,
@@ -25,7 +26,15 @@ export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
   @Post()
-  async create(@Body() createOrderDto: CreateOrderDto): Promise<undefined> {
+  async create(@Request() req: any): Promise<undefined> {
+    const order = req.body
+    const createOrderDto: CreateOrderDto = Object.assign(
+      {}, 
+      order,
+      {
+        userId: req?.user?.sub, status: OrderStatus.Ordered
+      }
+    )
     createOrderDto.status = OrderStatus.Ordered;
     await this.ordersService.create(createOrderDto);
   }
